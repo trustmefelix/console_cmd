@@ -9,7 +9,7 @@ class ANSIErase {
 	ANSIErase._();
 	
 	/// ANSIErase single instance
-	static ANSIErase _instance;
+	static ANSIErase? _instance;
 	
 	/// Clear the screen and home cursor
 	void clearScreen() {

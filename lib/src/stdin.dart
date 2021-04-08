@@ -16,19 +16,19 @@ class StdinManager {
 	}
 	
 	/// StdinManager single instance
-	static StdinManager _instance;
+	static StdinManager? _instance;
 	
 	/// stdin raw stream's subscription
-	StreamSubscription<List<int>> _streamSubscription;
+	late StreamSubscription<List<int>> _streamSubscription;
 	
 	/// stdin observer list
-	List<StdinObserver> _stdinObserver;
+	List<StdinObserver>? _stdinObserver;
 	
 	/// Insert stdin observer, the new one will grab data stream
 	/// for own use, until next observer come or close by itself
 	StdinSubscription insertObserver(StdinObserver observer) {
 		_stdinObserver ??= [];
-		_stdinObserver.insert(0, observer);
+		_stdinObserver!.insert(0, observer);
 		return StdinSubscription._(observer);
 	}
 	
@@ -46,7 +46,7 @@ class StdinManager {
 	/// Cancel stdin observer
 	void _cancelObserver(StdinObserver observer) {
 		_stdinObserver?.remove(observer);
-		if (_stdinObserver != null && _stdinObserver.isEmpty) {
+		if (_stdinObserver != null && _stdinObserver!.isEmpty) {
 			_stdinObserver = null;
 		}
 	}

@@ -10,7 +10,7 @@ class ANSIPrinter {
 	/// - [bColor] : background color
 	/// - [bGray] : background color's grey scale value
 	void printRGB(String text,
-		{bool breakLine = true, int fColor, double fGray, int bColor, double bGray}) {
+		{bool breakLine = true, int? fColor, double? fGray, int? bColor, double? bGray}) {
 		assert(breakLine != null);
 		if (text == '' || text == null) {
 			print('', breakLine: breakLine);

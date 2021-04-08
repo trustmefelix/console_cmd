@@ -14,11 +14,11 @@ class ANSICursor {
 	ANSICursor._();
 	
 	/// ANSICursor single instance
-	static ANSICursor _instance;
+	static ANSICursor? _instance;
 	
 	/// Store CursorPoint List
 	/// Supports stored-point sequence，and locate specify point directly
-	List<ANSICursorPoint> _savedCursorPoint;
+	List<ANSICursorPoint>? _savedCursorPoint;
 	
 	/// Move cursor up # lines
 	/// - [lineCount] : line count
@@ -67,7 +67,7 @@ class ANSICursor {
 	
 	/// Locate the cursor at specify point
 	/// - [point] : specify cursor point
-	void locateCursor({ANSICursorPoint point}) {
+	void locateCursor({required ANSICursorPoint point}) {
 		assert(point != null);
 		if (stdout.supportsAnsiEscapes) {
 			stdout.write('${kESC}${point.row};${point.col}H');
@@ -161,8 +161,8 @@ class ANSICursor {
 				rowNumber = tempNumber;
 				
 				_savedCursorPoint ??= [];
-				final curIdx = _savedCursorPoint.length;
-				_savedCursorPoint.add(
+				final curIdx = _savedCursorPoint!.length;
+				_savedCursorPoint!.add(
 					ANSICursorPoint(row: rowNumber, col: colNumber));
 				return curIdx;
 			}
@@ -186,23 +186,23 @@ class ANSICursor {
 		assert(storePointIdx != null);
 		assert(popBefore != null);
 		if (stdout.supportsAnsiEscapes) {
-			if (_savedCursorPoint == null || _savedCursorPoint.isEmpty) {
+			if (_savedCursorPoint == null || _savedCursorPoint!.isEmpty) {
 				return;
 			}
 			
 			var restoreIdx = storePointIdx != -1
 				? storePointIdx
-				: _savedCursorPoint.length - 1;
+				: _savedCursorPoint!.length - 1;
 			
-			if (restoreIdx >= _savedCursorPoint.length) {
+			if (restoreIdx >= _savedCursorPoint!.length) {
 				return;
 			}
 			
-			locateCursor(point: _savedCursorPoint[restoreIdx]);
+			locateCursor(point: _savedCursorPoint![restoreIdx]);
 			if (popBefore) {
-				_savedCursorPoint.removeRange(
-					restoreIdx, _savedCursorPoint.length);
-				if (_savedCursorPoint.isEmpty) {
+				_savedCursorPoint!.removeRange(
+					restoreIdx, _savedCursorPoint!.length);
+				if (_savedCursorPoint!.isEmpty) {
 					_savedCursorPoint = null;
 				}
 			}
